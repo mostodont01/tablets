@@ -2,13 +2,13 @@
 
 Unattended Debian 13 installer for the old **Umax VisionBook 9Wi Pro** tablets (Atom x5-Z8350, 2 GB RAM, 32 GB eMMC,
 32-bit UEFI, Realtek rtl8723bs SDIO Wi-Fi). Boot it from the Ventoy stick and walk away: it erases the eMMC, installs
-Debian, sets the tablet up like `tab01` and reboots into the finished system, then the first boot installs the
+Debian, sets the tablet up like the first tablet (`server`) and reboots into the finished system, then the first boot installs the
 tablet's roles (e.g. the HexCAD build store).
 
 ## What a tablet gets
 
 - Debian 13 (console only), `en_US.UTF-8`, Czech keyboard, `Europe/Prague`, NTP
-- Partitions like tab01 (own recipe): 1 GB EFI system partition, ext4 root, 1.5 GB swap; GRUB for 32-bit UEFI, also installed
+- Partitions like the first tablet (own recipe): 1 GB EFI system partition, ext4 root, 1.5 GB swap; GRUB for 32-bit UEFI, also installed
   as `EFI/BOOT/BOOTIA32.EFI`
 - Console turned for the portrait panel (`fbcon=rotate:1`), auto-login of `otos` on tty1
 - User `otos` (uid 1000) with a locked password: SSH key only (no passwords, no root login), `sudo` without a password

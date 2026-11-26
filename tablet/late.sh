@@ -1,5 +1,5 @@
 #!/bin/sh
-# preseed/late_command: turn the fresh Debian into a tablet like tab01. Runs in the installer, system at /target.
+# preseed/late_command: turn the fresh Debian into a tablet like the first tablet (server). Runs in the installer, system at /target.
 set -e
 T=/target
 S=/cdrom/tablet
