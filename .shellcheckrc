@@ -1,0 +1,2 @@
+# Intentional: word splitting of disk/host lists, QEMU comma args, literal $TERM, sourced files on the ISO
+disable=SC1091,SC2046,SC2054,SC1010,SC2016,SC2013
