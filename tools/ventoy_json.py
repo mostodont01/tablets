@@ -9,6 +9,8 @@ def set_default(cfg, image, timeout=5):
     control = [c for c in cfg.get("control", []) if not ({"VTOY_DEFAULT_IMAGE", "VTOY_MENU_TIMEOUT"} & c.keys())]
     control += [{"VTOY_DEFAULT_IMAGE": image}, {"VTOY_MENU_TIMEOUT": str(timeout)}]
     cfg["control"] = control
+    alias = "Tablet auto-installer (ERASES a VisionBook's eMMC)"
+    cfg["menu_alias"] = [a for a in cfg.get("menu_alias", []) if a.get("image") != image] + [{"image": image, "alias": alias}]
     return cfg
 
 

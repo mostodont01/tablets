@@ -74,3 +74,10 @@ def test_build_without_test_flag_gets_past_the_output_name(tmp_path):
     r = subprocess.run(["bash", "-c", f"set -euo pipefail; TEST=0; OUT=out/tablet-installer.iso\n{line}\necho $OUT"],
                        capture_output=True, text=True)
     assert r.stdout.strip() == "out/tablet-installer.iso"
+
+
+def test_ventoy_menu_alias_added_once():
+    cfg = {"menu_alias": [{"image": "/win11.vhd", "alias": "Windows"}]}
+    out = set_default(set_default(cfg, "/tablet-installer.iso"), "/tablet-installer.iso")
+    assert out["menu_alias"][0] == {"image": "/win11.vhd", "alias": "Windows"}
+    assert [a["image"] for a in out["menu_alias"]].count("/tablet-installer.iso") == 1

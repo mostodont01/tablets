@@ -30,7 +30,7 @@ an error, so booting the stick on another computer erases nothing. (The QEMU tes
 cp site.conf.example site.conf      # Wi-Fi name / password, SSH key   (not committed)
 cp hosts.map.example hosts.map      # MAC -> hostname + roles          (not committed)
 ./build.sh                          # -> out/tablet-installer.iso
-./build.sh --ventoy /media/$USER/Ventoy   # also copy it to the stick and make it Ventoy's default entry (5 s)
+./build.sh --ventoy /run/media/$USER/Ventoy   # also copy it to the stick and make it Ventoy's default entry (5 s)
 ```
 
 `build.sh` remasters the stock netinst ISO (`~/Downloads/tablet-boot/debian-13.8.0-amd64-netinst.iso` by default):
