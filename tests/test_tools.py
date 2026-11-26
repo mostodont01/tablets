@@ -65,3 +65,12 @@ def test_shell_scripts_parse():
     for f in list((ROOT / "tablet").rglob("*.sh")) + [ROOT / "build.sh", ROOT / "tests/qemu-install.sh"]:
         shell = "bash" if f.read_text().startswith("#!/usr/bin/env bash") else "sh"
         subprocess.run([shell, "-n", str(f)], check=True)
+
+
+def test_build_without_test_flag_gets_past_the_output_name(tmp_path):
+    """Regression: `OUT=...$([ $TEST = 1 ] && ...)` aborted under set -e when not testing."""
+    script = (ROOT / "build.sh").read_text()
+    line = next(l for l in script.splitlines() if l.startswith("[ $TEST = 1 ] && OUT="))
+    r = subprocess.run(["bash", "-c", f"set -euo pipefail; TEST=0; OUT=out/tablet-installer.iso\n{line}\necho $OUT"],
+                       capture_output=True, text=True)
+    assert r.stdout.strip() == "out/tablet-installer.iso"

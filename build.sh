@@ -19,7 +19,8 @@ ISO=${ISO:-$HOME/Downloads/tablet-boot/debian-13.8.0-amd64-netinst.iso}
 [ -f site.conf ] || { echo "site.conf missing (copy site.conf.example)" >&2; exit 1; }
 # shellcheck source=site.conf.example
 . ./site.conf
-OUT=out/tablet-installer$([ $TEST = 1 ] && echo -test).iso
+OUT=out/tablet-installer.iso
+[ $TEST = 1 ] && OUT=out/tablet-installer-test.iso
 STAGE=$(mktemp -d); trap 'rm -rf "$STAGE"' EXIT
 mkdir -p out "$STAGE/tablet/roles"
 
