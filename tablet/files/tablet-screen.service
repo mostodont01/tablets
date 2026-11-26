@@ -1,0 +1,10 @@
+[Unit]
+Description=Tablet screen off; type the PIN to turn it on (tablet-screen)
+
+[Service]
+ExecStart=/usr/bin/python3 /usr/local/lib/tablet/tablet-screen.py
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

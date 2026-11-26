@@ -27,6 +27,7 @@ mkdir -p out "$STAGE/tablet/roles"
 # Installer files under /tablet on the ISO
 cp tablet/*.sh tablet/preseed.cfg tablet/tablet-firstboot.service "$STAGE/tablet/"
 cp tablet/roles/*.sh "$STAGE/tablet/roles/"
+cp -r tablet/files "$STAGE/tablet/files"
 cp "${SSH_KEY/#\~/$HOME}" "$STAGE/tablet/authorized_keys"
 cp "${HOSTS_MAP:-hosts.map}" "$STAGE/tablet/hosts.map"
 python3 tools/site_cfg.py "$WIFI_SSID" "${WIFI_PSK:-}" > "$STAGE/tablet/site.cfg"

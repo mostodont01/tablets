@@ -17,6 +17,13 @@ tablet's roles (e.g. the HexCAD build store).
 - Roles (`tablet/roles/<role>.sh`) run once on the first boot with network (`tablet-firstboot.service`, retried every
   minute until they succeed):
   - `hexcad`: HexCAD build store, `hexcad serve` on port 8770 as the systemd service `hexcad-serve`
+  - `server`: always on, for a tablet that lives closed in a corner:
+    - never sleeps or powers off by itself: lid, power/sleep buttons and idle are ignored, sleep targets masked
+      (`sudo poweroff` still works; holding the power button ~10 s still cuts power in hardware)
+    - Wi-Fi power saving off, so it stays reachable
+    - screen off (`tablet-screen`): type **123** on the keyboard to turn it on; it goes off again after 5 minutes
+      without a key press. While it's off the keyboard is grabbed, so the PIN never reaches the console. PIN and
+      timeout in `/etc/tablet-screen.conf`. Over SSH: `tabscreen on | off | status`
 
 ## Safety
 

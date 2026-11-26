@@ -1,0 +1,9 @@
+#!/bin/sh
+# tabscreen on | off | status   - control tablet-screen, e.g. over SSH.
+# "on" keeps the screen on until TIMEOUT seconds (/etc/tablet-screen.conf) pass without a key press.
+case ${1:-status} in
+    on)     sudo systemctl kill -s USR1 tablet-screen ;;
+    off)    sudo systemctl kill -s USR2 tablet-screen ;;
+    status) echo "screen: $(cat /run/tablet-screen.state 2>/dev/null || echo 'unknown (is tablet-screen running?)')" ;;
+    *)      echo "usage: tabscreen on|off|status" >&2; exit 2 ;;
+esac

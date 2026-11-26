@@ -1,5 +1,5 @@
 # <Wi-Fi MAC>          <hostname>  [roles...]   (copy to hosts.map, not committed)
 # Roles are scripts in tablet/roles/, run once on the first boot (with network).
 # Tablets not listed get the name tab-<last 4 hex digits of the MAC> and no roles.
-aa:bb:cc:dd:ee:01      tab01       hexcad
+aa:bb:cc:dd:ee:01      tab01       server hexcad
 52:54:00:12:34:56      tabtest     hexcad   # QEMU's default MAC, for tests/qemu-install.sh

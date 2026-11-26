@@ -1,0 +1,12 @@
+[Unit]
+Description=Wi-Fi power saving off (the server stays reachable)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/iwconfig wlan0 power off
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
