@@ -32,6 +32,7 @@ printf '[Service]\nExecStart=\nExecStart=-/sbin/agetty --autologin otos --noclea
 install -d $T/usr/local/lib/tablet/roles
 install -m 755 $S/roles/*.sh $T/usr/local/lib/tablet/roles/
 cp -r $S/files $T/usr/local/lib/tablet/files          # config files and services the roles install
+[ -e $T/usr/local/lib/tablet/files/ts-authkey ] && chmod 600 $T/usr/local/lib/tablet/files/ts-authkey
 install -m 755 $S/firstboot.sh $T/usr/local/sbin/tablet-firstboot
 install -m 644 $S/tablet-firstboot.service $T/etc/systemd/system/
 in-target systemctl enable tablet-firstboot.service

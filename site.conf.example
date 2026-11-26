@@ -3,3 +3,4 @@ WIFI_SSID="my-network"
 WIFI_PSK=""                      # empty = open network; else the WPA password (8-63 characters)
 SSH_KEY="~/.ssh/id_ed25519.pub"  # becomes ~otos/.ssh/authorized_keys on every tablet
 HOSTS_MAP="hosts.map"            # MAC -> hostname + roles (see hosts.map.example)
+TS_AUTHKEY=""                    # optional Tailscale auth key (tailscale role joins by itself); keep it one-use / short-lived

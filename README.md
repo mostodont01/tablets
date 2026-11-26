@@ -16,7 +16,12 @@ tablet's roles (e.g. the HexCAD build store).
 - Hostname + roles from `hosts.map` by the Wi-Fi MAC (unknown tablets: `tab-<last 4 hex of the MAC>`)
 - Roles (`tablet/roles/<role>.sh`) run once on the first boot with network (`tablet-firstboot.service`, retried every
   minute until they succeed):
-  - `hexcad`: HexCAD build store, `hexcad serve` on port 8770 as the systemd service `hexcad-serve`
+  - `tailscale`: installs Tailscale and joins the tailnet under the tablet's hostname. Joining by itself needs
+    `TS_AUTHKEY` in `site.conf` (make a **one-use** key in the Tailscale admin console: it ends up inside the ISO
+    on the stick; the tablet deletes it after joining). Without a key: `sudo tailscale up` once on the tablet.
+    List it first, so the roles after it can use `tailscale serve`.
+  - `hexcad`: HexCAD build store, `hexcad serve` on port 8770 as the systemd service `hexcad-serve`; with Tailscale
+    also its phone app over HTTPS (`tailscale serve` → `https://<host>.<tailnet>.ts.net`)
   - `server`: always on, for a tablet that lives closed in a corner:
     - never sleeps or powers off by itself: lid, power/sleep buttons and idle are ignored, sleep targets masked
       (`sudo poweroff` still works; holding the power button ~10 s still cuts power in hardware)

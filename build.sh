@@ -31,6 +31,10 @@ cp -r tablet/files "$STAGE/tablet/files"
 cp "${SSH_KEY/#\~/$HOME}" "$STAGE/tablet/authorized_keys"
 cp "${HOSTS_MAP:-hosts.map}" "$STAGE/tablet/hosts.map"
 python3 tools/site_cfg.py "$WIFI_SSID" "${WIFI_PSK:-}" > "$STAGE/tablet/site.cfg"
+# optional: Tailscale auth key for the tailscale role (joins without a login click); never committed
+if [ -n "${TS_AUTHKEY:-}" ]; then
+    (umask 077; printf '%s' "$TS_AUTHKEY" > "$STAGE/tablet/files/ts-authkey")
+fi
 
 # Boot menu: auto entry first, 5 s timeout; the stock entries stay below it.
 ARGS="auto=true priority=critical file=/cdrom/tablet/preseed.cfg locale=en_US.UTF-8 keymap=cz"

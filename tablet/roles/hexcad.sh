@@ -1,6 +1,10 @@
 #!/bin/sh
-# Role: HexCAD build store (hexcad serve on port 8770, store in /home/otos/hexcad-store) as a systemd service.
+# Role: HexCAD build store (hexcad serve on port 8770, store in /home/otos/hexcad-store) as a systemd service,
+# plus its phone app over HTTPS (https://<host>.<tailnet>.ts.net, tailnet only) when the tablet is on Tailscale.
 set -e
+if tailscale status >/dev/null 2>&1; then
+    tailscale serve --bg 8770 >/dev/null
+fi
 curl -fsSL https://raw.githubusercontent.com/mostodont01/hexcad/main/server/setup.sh -o /tmp/hexcad-setup.sh
 runuser -l otos -c 'bash /tmp/hexcad-setup.sh none'
 cat > /etc/systemd/system/hexcad-serve.service <<'UNIT'
