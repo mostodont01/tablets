@@ -8,7 +8,7 @@ tablet's roles (e.g. the HexCAD build store).
 ## What a tablet gets
 
 - Debian 13 (console only), `en_US.UTF-8`, Czech keyboard, `Europe/Prague`, NTP
-- Partitions like tab01: EFI system partition, ext4 root, swap (`atomic` recipe); GRUB for 32-bit UEFI, also installed
+- Partitions like tab01 (own recipe): 1 GB EFI system partition, ext4 root, 1.5 GB swap; GRUB for 32-bit UEFI, also installed
   as `EFI/BOOT/BOOTIA32.EFI`
 - Console turned for the portrait panel (`fbcon=rotate:1`), auto-login of `otos` on tty1
 - User `otos` (uid 1000) with a locked password: SSH key only (no passwords, no root login), `sudo` without a password
@@ -47,11 +47,11 @@ Find a tablet's Wi-Fi MAC: `cat /sys/class/net/wlan0/address` (or the installer'
 
 ```sh
 uv run --with pytest pytest -q tests      # unit tests: disk guard, hostname map, GRUB/Ventoy/Wi-Fi config (CI)
-tests/qemu-install.sh ~/.cache/tablets-qemu   # end to end: unattended install in QEMU (UEFI, SD card as mmcblk),
+tests/qemu-install.sh ~/.cache/tablets-qemu   # end to end: unattended install in QEMU (UEFI, virtio disk),
                                               # then boots it and checks SSH, sudo, hostname and the hexcad role
 ```
 
-The QEMU test needs KVM, `52:54:00:12:34:56 tabtest hexcad` in `hosts.map`, and takes ~15-25 min (downloads packages).
+The QEMU test needs KVM, `52:54:00:12:34:56 tabtest hexcad` in `hosts.map`, and takes ~15-25 min (downloads packages). Last run: PASS, 2026-11-26.
 It runs the 64-bit UEFI path; the tablets' 32-bit UEFI was only tested by hand with the stock installer.
 
 ## Add a role

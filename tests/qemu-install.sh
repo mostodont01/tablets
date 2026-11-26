@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# End-to-end test: install out/tablet-installer-test.iso in QEMU (UEFI, SD card = mmcblk like the eMMC) with no input,
+# End-to-end test: install out/tablet-installer-test.iso in QEMU (UEFI, virtio disk) with no input,
 # boot the result and check it over SSH (hostname from hosts.map, key login, sudo, first-boot roles).
 # Needs KVM, the laptop's SSH key in site.conf, and 52:54:00:12:34:56 -> tabtest hexcad in hosts.map.
 #   tests/qemu-install.sh [workdir]
@@ -9,11 +9,13 @@ W=${1:-$(mktemp -d)}; mkdir -p "$W"
 ISO=out/tablet-installer-test.iso
 [ -f "$ISO" ] || ./build.sh --test
 cp /usr/share/OVMF/OVMF_VARS_4M.fd "$W/vars.fd"
-rm -f "$W/disk.img"; truncate -s 8G "$W/disk.img"
+rm -f "$W/disk.img"; truncate -s 29G "$W/disk.img"
+# virtio, not QEMU's sd-card: partman can't align partitions on the emulated SD ("Unable to satisfy all
+# constraints"); the real eMMC partitions fine with the same recipe.
 Q=(qemu-system-x86_64 -enable-kvm -m 2048 -smp 2 -machine q35
    -drive if=pflash,format=raw,readonly=on,file=/usr/share/OVMF/OVMF_CODE_4M.fd
    -drive if=pflash,format=raw,file="$W/vars.fd"
-   -device sdhci-pci -drive if=none,id=sd,format=raw,file="$W/disk.img" -device sd-card,drive=sd
+   -drive if=virtio,format=raw,file="$W/disk.img"
    -netdev user,id=n0,hostfwd=tcp:127.0.0.1:2222-:22 -device virtio-net-pci,netdev=n0,mac=52:54:00:12:34:56
    -display none -monitor unix:"$W/mon.sock",server,nowait)
 
